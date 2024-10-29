@@ -114,6 +114,15 @@ SYN_FILES += lib/pcie/rtl/pcie_us_if_cq.v
 SYN_FILES += lib/pcie/rtl/pcie_us_cfg.v
 SYN_FILES += lib/pcie/rtl/pulse_merge.v
 
+# APP user logic files
+SYN_FILES += lib/axi/rtl/axil_ram.v
+SYN_FILES += app/template/rtl/axi.svh
+SYN_FILES += app/template/rtl/lut_ram.sv
+SYN_FILES += app/template/rtl/memory_fetcher.sv
+SYN_FILES += app/template/rtl/rule_match_engine.sv
+SYN_FILES += app/template/rtl/block_ram.sv
+SYN_FILES += app/template/rtl/mqnic_app_block.sv
+
 # XDC files
 XDC_FILES = fpga_au200.xdc
 XDC_FILES += placement_au250.xdc
