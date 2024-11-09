@@ -114,8 +114,9 @@ dict set params TX_RAM_SIZE "131072"
 dict set params RX_RAM_SIZE "131072"
 
 # RAM configuration
-dict set params DDR_CH "4"
-dict set params DDR_ENABLE "0"
+# dict set params DDR_CH "4"
+dict set params DDR_CH "1"   
+dict set params DDR_ENABLE "1"
 dict set params AXI_DDR_ID_WIDTH "8"
 dict set params AXI_DDR_MAX_BURST_LEN "256"
 

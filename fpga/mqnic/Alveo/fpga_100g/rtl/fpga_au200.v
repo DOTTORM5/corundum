@@ -1482,9 +1482,53 @@ wire [DDR_CH-1:0]                     m_axi_ddr_rready;
 
 wire [DDR_CH-1:0]                     ddr_status;
 
+
+
+wire clk_300mhz_1_ibufg;
+wire clk_300mhz_1_int;
+
+IBUFGDS #(
+   .DIFF_TERM("FALSE"),
+   .IBUF_LOW_PWR("FALSE")
+)
+clk_300mhz_1_ibufg_inst (
+   .O   (clk_300mhz_1_ibufg),
+   .I   (clk_300mhz_1_p),
+   .IB  (clk_300mhz_1_n)
+);
+
+BUFG
+clk_300mhz_1_bufg_inst (
+    .I(clk_300mhz_1_ibufg),
+    .O(clk_300mhz_1_int)
+);
+
+
+
 generate
 
-if (DDR_ENABLE && DDR_CH > 0) begin
+// if (DDR_ENABLE && DDR_CH > 0) begin
+if (DDR_ENABLE && DDR_CH == 1) begin 
+
+assign ddr4_c0_adr = {17{1'bz}};
+assign ddr4_c0_ba = {2{1'bz}};
+assign ddr4_c0_bg = {2{1'bz}};
+assign ddr4_c0_cke = 1'bz;
+assign ddr4_c0_cs_n = 1'bz;
+assign ddr4_c0_act_n = 1'bz;
+assign ddr4_c0_odt = 1'bz;
+assign ddr4_c0_par = 1'bz;
+assign ddr4_c0_reset_n = 1'b0;
+assign ddr4_c0_dq = {72{1'bz}};
+assign ddr4_c0_dqs_t = {18{1'bz}};
+assign ddr4_c0_dqs_c = {18{1'bz}};
+
+OBUFTDS ddr4_c0_ck_obuftds_inst (
+    .I(1'b0),
+    .T(1'b1),
+    .O(ddr4_c0_ck_t),
+    .OB(ddr4_c0_ck_c)
+);
 
 reg ddr4_rst_reg = 1'b1;
 
@@ -1496,8 +1540,8 @@ always @(posedge pcie_user_clk or posedge pcie_user_reset) begin
     end
 end
 
-ddr4_0 ddr4_c0_inst (
-    .c0_sys_clk_i(clk_300mhz_0_int),
+ddr4_0 ddr4_c1_inst (
+    .c0_sys_clk_i(clk_300mhz_1_int),
     .sys_rst(ddr4_rst_reg),
 
     .c0_init_calib_complete(ddr_status[0 +: 1]),
@@ -1505,20 +1549,20 @@ ddr4_0 ddr4_c0_inst (
     .dbg_clk(),
     .dbg_bus(),
 
-    .c0_ddr4_adr(ddr4_c0_adr),
-    .c0_ddr4_ba(ddr4_c0_ba),
-    .c0_ddr4_cke(ddr4_c0_cke),
-    .c0_ddr4_cs_n(ddr4_c0_cs_n),
-    .c0_ddr4_dq(ddr4_c0_dq),
-    .c0_ddr4_dqs_t(ddr4_c0_dqs_t),
-    .c0_ddr4_dqs_c(ddr4_c0_dqs_c),
-    .c0_ddr4_odt(ddr4_c0_odt),
-    .c0_ddr4_parity(ddr4_c0_par),
-    .c0_ddr4_bg(ddr4_c0_bg),
-    .c0_ddr4_reset_n(ddr4_c0_reset_n),
-    .c0_ddr4_act_n(ddr4_c0_act_n),
-    .c0_ddr4_ck_t(ddr4_c0_ck_t),
-    .c0_ddr4_ck_c(ddr4_c0_ck_c),
+    .c0_ddr4_adr(ddr4_c1_adr),
+    .c0_ddr4_ba(ddr4_c1_ba),
+    .c0_ddr4_cke(ddr4_c1_cke),
+    .c0_ddr4_cs_n(ddr4_c1_cs_n),
+    .c0_ddr4_dq(ddr4_c1_dq),
+    .c0_ddr4_dqs_t(ddr4_c1_dqs_t),
+    .c0_ddr4_dqs_c(ddr4_c1_dqs_c),
+    .c0_ddr4_odt(ddr4_c1_odt),
+    .c0_ddr4_parity(ddr4_c1_par),
+    .c0_ddr4_bg(ddr4_c1_bg),
+    .c0_ddr4_reset_n(ddr4_c1_reset_n),
+    .c0_ddr4_act_n(ddr4_c1_act_n),
+    .c0_ddr4_ck_t(ddr4_c1_ck_t),
+    .c0_ddr4_ck_c(ddr4_c1_ck_c),
 
     .c0_ddr4_ui_clk(ddr_clk[0 +: 1]),
     .c0_ddr4_ui_clk_sync_rst(ddr_rst[0 +: 1]),
@@ -1581,27 +1625,112 @@ ddr4_0 ddr4_c0_inst (
     .c0_ddr4_s_axi_rdata(m_axi_ddr_rdata[0*AXI_DDR_DATA_WIDTH +: AXI_DDR_DATA_WIDTH])
 );
 
+// ddr4_0 ddr4_c0_inst (
+//     .c0_sys_clk_i(clk_300mhz_0_int),
+//     .sys_rst(ddr4_rst_reg),
+
+//     .c0_init_calib_complete(ddr_status[0 +: 1]),
+//     .c0_ddr4_interrupt(),
+//     .dbg_clk(),
+//     .dbg_bus(),
+
+//     .c0_ddr4_adr(ddr4_c0_adr),
+//     .c0_ddr4_ba(ddr4_c0_ba),
+//     .c0_ddr4_cke(ddr4_c0_cke),
+//     .c0_ddr4_cs_n(ddr4_c0_cs_n),
+//     .c0_ddr4_dq(ddr4_c0_dq),
+//     .c0_ddr4_dqs_t(ddr4_c0_dqs_t),
+//     .c0_ddr4_dqs_c(ddr4_c0_dqs_c),
+//     .c0_ddr4_odt(ddr4_c0_odt),
+//     .c0_ddr4_parity(ddr4_c0_par),
+//     .c0_ddr4_bg(ddr4_c0_bg),
+//     .c0_ddr4_reset_n(ddr4_c0_reset_n),
+//     .c0_ddr4_act_n(ddr4_c0_act_n),
+//     .c0_ddr4_ck_t(ddr4_c0_ck_t),
+//     .c0_ddr4_ck_c(ddr4_c0_ck_c),
+
+//     .c0_ddr4_ui_clk(ddr_clk[0 +: 1]),
+//     .c0_ddr4_ui_clk_sync_rst(ddr_rst[0 +: 1]),
+
+//     .c0_ddr4_aresetn(!ddr_rst[0 +: 1]),
+
+//     .c0_ddr4_s_axi_ctrl_awvalid(1'b0),
+//     .c0_ddr4_s_axi_ctrl_awready(),
+//     .c0_ddr4_s_axi_ctrl_awaddr(32'd0),
+//     .c0_ddr4_s_axi_ctrl_wvalid(1'b0),
+//     .c0_ddr4_s_axi_ctrl_wready(),
+//     .c0_ddr4_s_axi_ctrl_wdata(32'd0),
+//     .c0_ddr4_s_axi_ctrl_bvalid(),
+//     .c0_ddr4_s_axi_ctrl_bready(1'b1),
+//     .c0_ddr4_s_axi_ctrl_bresp(),
+//     .c0_ddr4_s_axi_ctrl_arvalid(1'b0),
+//     .c0_ddr4_s_axi_ctrl_arready(),
+//     .c0_ddr4_s_axi_ctrl_araddr(31'd0),
+//     .c0_ddr4_s_axi_ctrl_rvalid(),
+//     .c0_ddr4_s_axi_ctrl_rready(1'b1),
+//     .c0_ddr4_s_axi_ctrl_rdata(),
+//     .c0_ddr4_s_axi_ctrl_rresp(),
+
+//     .c0_ddr4_s_axi_awid(m_axi_ddr_awid[0*AXI_DDR_ID_WIDTH +: AXI_DDR_ID_WIDTH]),
+//     .c0_ddr4_s_axi_awaddr(m_axi_ddr_awaddr[0*AXI_DDR_ADDR_WIDTH +: AXI_DDR_ADDR_WIDTH]),
+//     .c0_ddr4_s_axi_awlen(m_axi_ddr_awlen[0*8 +: 8]),
+//     .c0_ddr4_s_axi_awsize(m_axi_ddr_awsize[0*3 +: 3]),
+//     .c0_ddr4_s_axi_awburst(m_axi_ddr_awburst[0*2 +: 2]),
+//     .c0_ddr4_s_axi_awlock(m_axi_ddr_awlock[0 +: 1]),
+//     .c0_ddr4_s_axi_awcache(m_axi_ddr_awcache[0*4 +: 4]),
+//     .c0_ddr4_s_axi_awprot(m_axi_ddr_awprot[0*3 +: 3]),
+//     .c0_ddr4_s_axi_awqos(m_axi_ddr_awqos[0*4 +: 4]),
+//     .c0_ddr4_s_axi_awvalid(m_axi_ddr_awvalid[0 +: 1]),
+//     .c0_ddr4_s_axi_awready(m_axi_ddr_awready[0 +: 1]),
+//     .c0_ddr4_s_axi_wdata(m_axi_ddr_wdata[0*AXI_DDR_DATA_WIDTH +: AXI_DDR_DATA_WIDTH]),
+//     .c0_ddr4_s_axi_wstrb(m_axi_ddr_wstrb[0*AXI_DDR_STRB_WIDTH +: AXI_DDR_STRB_WIDTH]),
+//     .c0_ddr4_s_axi_wlast(m_axi_ddr_wlast[0 +: 1]),
+//     .c0_ddr4_s_axi_wvalid(m_axi_ddr_wvalid[0 +: 1]),
+//     .c0_ddr4_s_axi_wready(m_axi_ddr_wready[0 +: 1]),
+//     .c0_ddr4_s_axi_bready(m_axi_ddr_bready[0 +: 1]),
+//     .c0_ddr4_s_axi_bid(m_axi_ddr_bid[0*AXI_DDR_ID_WIDTH +: AXI_DDR_ID_WIDTH]),
+//     .c0_ddr4_s_axi_bresp(m_axi_ddr_bresp[0*2 +: 2]),
+//     .c0_ddr4_s_axi_bvalid(m_axi_ddr_bvalid[0 +: 1]),
+//     .c0_ddr4_s_axi_arid(m_axi_ddr_arid[0*AXI_DDR_ID_WIDTH +: AXI_DDR_ID_WIDTH]),
+//     .c0_ddr4_s_axi_araddr(m_axi_ddr_araddr[0*AXI_DDR_ADDR_WIDTH +: AXI_DDR_ADDR_WIDTH]),
+//     .c0_ddr4_s_axi_arlen(m_axi_ddr_arlen[0*8 +: 8]),
+//     .c0_ddr4_s_axi_arsize(m_axi_ddr_arsize[0*3 +: 3]),
+//     .c0_ddr4_s_axi_arburst(m_axi_ddr_arburst[0*2 +: 2]),
+//     .c0_ddr4_s_axi_arlock(m_axi_ddr_arlock[0 +: 1]),
+//     .c0_ddr4_s_axi_arcache(m_axi_ddr_arcache[0*4 +: 4]),
+//     .c0_ddr4_s_axi_arprot(m_axi_ddr_arprot[0*3 +: 3]),
+//     .c0_ddr4_s_axi_arqos(m_axi_ddr_arqos[0*4 +: 4]),
+//     .c0_ddr4_s_axi_arvalid(m_axi_ddr_arvalid[0 +: 1]),
+//     .c0_ddr4_s_axi_arready(m_axi_ddr_arready[0 +: 1]),
+//     .c0_ddr4_s_axi_rready(m_axi_ddr_rready[0 +: 1]),
+//     .c0_ddr4_s_axi_rlast(m_axi_ddr_rlast[0 +: 1]),
+//     .c0_ddr4_s_axi_rvalid(m_axi_ddr_rvalid[0 +: 1]),
+//     .c0_ddr4_s_axi_rresp(m_axi_ddr_rresp[0*2 +: 2]),
+//     .c0_ddr4_s_axi_rid(m_axi_ddr_rid[0*AXI_DDR_ID_WIDTH +: AXI_DDR_ID_WIDTH]),
+//     .c0_ddr4_s_axi_rdata(m_axi_ddr_rdata[0*AXI_DDR_DATA_WIDTH +: AXI_DDR_DATA_WIDTH])
+// );
+
 end else begin
 
-assign ddr4_c0_adr = {17{1'bz}};
-assign ddr4_c0_ba = {2{1'bz}};
-assign ddr4_c0_bg = {2{1'bz}};
-assign ddr4_c0_cke = 1'bz;
-assign ddr4_c0_cs_n = 1'bz;
-assign ddr4_c0_act_n = 1'bz;
-assign ddr4_c0_odt = 1'bz;
-assign ddr4_c0_par = 1'bz;
-assign ddr4_c0_reset_n = 1'b0;
-assign ddr4_c0_dq = {72{1'bz}};
-assign ddr4_c0_dqs_t = {18{1'bz}};
-assign ddr4_c0_dqs_c = {18{1'bz}};
+// assign ddr4_c0_adr = {17{1'bz}};
+// assign ddr4_c0_ba = {2{1'bz}};
+// assign ddr4_c0_bg = {2{1'bz}};
+// assign ddr4_c0_cke = 1'bz;
+// assign ddr4_c0_cs_n = 1'bz;
+// assign ddr4_c0_act_n = 1'bz;
+// assign ddr4_c0_odt = 1'bz;
+// assign ddr4_c0_par = 1'bz;
+// assign ddr4_c0_reset_n = 1'b0;
+// assign ddr4_c0_dq = {72{1'bz}};
+// assign ddr4_c0_dqs_t = {18{1'bz}};
+// assign ddr4_c0_dqs_c = {18{1'bz}};
 
-OBUFTDS ddr4_c0_ck_obuftds_inst (
-    .I(1'b0),
-    .T(1'b1),
-    .O(ddr4_c0_ck_t),
-    .OB(ddr4_c0_ck_c)
-);
+// OBUFTDS ddr4_c0_ck_obuftds_inst (
+//     .I(1'b0),
+//     .T(1'b1),
+//     .O(ddr4_c0_ck_t),
+//     .OB(ddr4_c0_ck_c)
+// );
 
 assign ddr_clk = 0;
 assign ddr_rst = 0;
@@ -1622,24 +1751,24 @@ assign ddr_status = 0;
 
 end
 
-wire clk_300mhz_1_ibufg;
-wire clk_300mhz_1_int;
+// wire clk_300mhz_1_ibufg;
+// wire clk_300mhz_1_int;
 
-IBUFGDS #(
-   .DIFF_TERM("FALSE"),
-   .IBUF_LOW_PWR("FALSE")
-)
-clk_300mhz_1_ibufg_inst (
-   .O   (clk_300mhz_1_ibufg),
-   .I   (clk_300mhz_1_p),
-   .IB  (clk_300mhz_1_n)
-);
+// IBUFGDS #(
+//    .DIFF_TERM("FALSE"),
+//    .IBUF_LOW_PWR("FALSE")
+// )
+// clk_300mhz_1_ibufg_inst (
+//    .O   (clk_300mhz_1_ibufg),
+//    .I   (clk_300mhz_1_p),
+//    .IB  (clk_300mhz_1_n)
+// );
 
-BUFG
-clk_300mhz_1_bufg_inst (
-    .I(clk_300mhz_1_ibufg),
-    .O(clk_300mhz_1_int)
-);
+// BUFG
+// clk_300mhz_1_bufg_inst (
+//     .I(clk_300mhz_1_ibufg),
+//     .O(clk_300mhz_1_int)
+// );
 
 if (DDR_ENABLE && DDR_CH > 1) begin
 
@@ -1740,25 +1869,25 @@ ddr4_0 ddr4_c1_inst (
 
 end else begin
 
-assign ddr4_c1_adr = {17{1'bz}};
-assign ddr4_c1_ba = {2{1'bz}};
-assign ddr4_c1_bg = {2{1'bz}};
-assign ddr4_c1_cke = 1'bz;
-assign ddr4_c1_cs_n = 1'bz;
-assign ddr4_c1_act_n = 1'bz;
-assign ddr4_c1_odt = 1'bz;
-assign ddr4_c1_par = 1'bz;
-assign ddr4_c1_reset_n = 1'b0;
-assign ddr4_c1_dq = {72{1'bz}};
-assign ddr4_c1_dqs_t = {18{1'bz}};
-assign ddr4_c1_dqs_c = {18{1'bz}};
+// assign ddr4_c1_adr = {17{1'bz}};
+// assign ddr4_c1_ba = {2{1'bz}};
+// assign ddr4_c1_bg = {2{1'bz}};
+// assign ddr4_c1_cke = 1'bz;
+// assign ddr4_c1_cs_n = 1'bz;
+// assign ddr4_c1_act_n = 1'bz;
+// assign ddr4_c1_odt = 1'bz;
+// assign ddr4_c1_par = 1'bz;
+// assign ddr4_c1_reset_n = 1'b0;
+// assign ddr4_c1_dq = {72{1'bz}};
+// assign ddr4_c1_dqs_t = {18{1'bz}};
+// assign ddr4_c1_dqs_c = {18{1'bz}};
 
-OBUFTDS ddr4_c1_ck_obuftds_inst (
-    .I(1'b0),
-    .T(1'b1),
-    .O(ddr4_c1_ck_t),
-    .OB(ddr4_c1_ck_c)
-);
+// OBUFTDS ddr4_c1_ck_obuftds_inst (
+//     .I(1'b0),
+//     .T(1'b1),
+//     .O(ddr4_c1_ck_t),
+//     .OB(ddr4_c1_ck_c)
+// );
 
 end
 

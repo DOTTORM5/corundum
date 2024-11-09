@@ -56,7 +56,7 @@ my_block_ram #(
 
 always_ff @(posedge clk or posedge rst) begin
     if ( rst ) begin
-        rule_byte   <= 341;
+        rule_byte   <= 14;
         rule_symbol <= 0;
         rule_value  <= 8'h45;  /* 0x7d = } */
         
@@ -89,7 +89,7 @@ always_ff @ ( posedge clk or posedge rst ) begin
         if ( packet_ready == 1'b1 ) begin
             case (rule_symbol) 
                 0 : begin
-                    if ( packet_buffer[1]/*[(payload_start_byte_buffer + rule_byte - (64*((payload_start_byte_buffer + rule_byte)/64)))*8 +: 8]*/ == rule_value ) begin
+                    if ( packet_buffer/*[(8*14)+8-1 : 8*14]*/[(payload_start_byte_buffer + rule_byte - (((payload_start_byte_buffer + rule_byte) >> 6) << 6 ))*8 +: 8] == rule_value ) begin
                         match_valid_o   <= 1'b1;
                         match_addr_o    <= ram_data_out[7:0] /*'b0*/;
                         match_pkt_len_o <= 192; 
