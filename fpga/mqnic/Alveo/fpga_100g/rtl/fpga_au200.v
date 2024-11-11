@@ -1732,22 +1732,22 @@ end else begin
 //     .OB(ddr4_c0_ck_c)
 // );
 
-assign ddr_clk = 0;
-assign ddr_rst = 0;
+// assign ddr_clk = 0;
+// assign ddr_rst = 0;
 
-assign m_axi_ddr_awready = 0;
-assign m_axi_ddr_wready = 0;
-assign m_axi_ddr_bid = 0;
-assign m_axi_ddr_bresp = 0;
-assign m_axi_ddr_bvalid = 0;
-assign m_axi_ddr_arready = 0;
-assign m_axi_ddr_rid = 0;
-assign m_axi_ddr_rdata = 0;
-assign m_axi_ddr_rresp = 0;
-assign m_axi_ddr_rlast = 0;
-assign m_axi_ddr_rvalid = 0;
+// assign m_axi_ddr_awready = 0;
+// assign m_axi_ddr_wready = 0;
+// assign m_axi_ddr_bid = 0;
+// assign m_axi_ddr_bresp = 0;
+// assign m_axi_ddr_bvalid = 0;
+// assign m_axi_ddr_arready = 0;
+// assign m_axi_ddr_rid = 0;
+// assign m_axi_ddr_rdata = 0;
+// assign m_axi_ddr_rresp = 0;
+// assign m_axi_ddr_rlast = 0;
+// assign m_axi_ddr_rvalid = 0;
 
-assign ddr_status = 0;
+// assign ddr_status = 0;
 
 end
 

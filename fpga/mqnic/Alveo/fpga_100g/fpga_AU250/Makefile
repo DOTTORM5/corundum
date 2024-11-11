@@ -114,7 +114,7 @@ SYN_FILES += lib/pcie/rtl/pcie_us_if_cq.v
 SYN_FILES += lib/pcie/rtl/pcie_us_cfg.v
 SYN_FILES += lib/pcie/rtl/pulse_merge.v
 
-# APP user logic files
+# APP user logic files # TO DO proper parametrization
 SYN_FILES += lib/axi/rtl/axil_ram.v
 SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/axi.svh
 SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/custom.svh
@@ -150,6 +150,8 @@ IP_TCL_FILES += ip/cmac_usplus.tcl
 IP_TCL_FILES += ip/cmac_gty.tcl
 IP_TCL_FILES += ip/cms.tcl
 IP_TCL_FILES += ip/ddr4_0.tcl
+
+# IP user logic # TO DO proper parametrization
 IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_main.tcl
 IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_lll.tcl
 IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_proc_sys_reset.tcl

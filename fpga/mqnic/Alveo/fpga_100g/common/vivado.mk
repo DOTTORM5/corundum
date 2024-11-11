@@ -101,12 +101,14 @@ update_config.tcl: $(CONFIG_TCL_FILES_REL) $(SYN_FILES_REL) $(INC_FILES_REL) $(X
 $(PROJECT).xpr: create_project.tcl update_config.tcl
 	vivado -nojournal -nolog -mode batch $(foreach x,$?,-source $x)
 
-# synthesis run
+# synthesis run - add ILA for debug TO DO better organization of this
 $(PROJECT).runs/synth_1/$(PROJECT).dcp: create_project.tcl update_config.tcl $(SYN_FILES_REL) $(INC_FILES_REL) $(XDC_FILES_REL) | $(PROJECT).xpr
 	echo "open_project $(PROJECT).xpr" > run_synth.tcl
 	echo "reset_run synth_1" >> run_synth.tcl
 	echo "launch_runs -jobs 8 synth_1" >> run_synth.tcl
 	echo "wait_on_run synth_1" >> run_synth.tcl
+	echo "open_run synth_1" >> run_synth.tcl
+	echo "source /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/add_ila.tcl" >> run_synth.tcl
 	vivado -nojournal -nolog -mode batch -source run_synth.tcl
 
 # implementation run
