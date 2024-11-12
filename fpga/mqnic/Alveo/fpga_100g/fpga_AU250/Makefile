@@ -116,17 +116,17 @@ SYN_FILES += lib/pcie/rtl/pulse_merge.v
 
 # APP user logic files # TO DO proper parametrization
 SYN_FILES += lib/axi/rtl/axil_ram.v
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/axi.svh
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/custom.svh
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/lut_ram.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/packet_transmitter.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/rule_match_engine.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/block_ram.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/memory_sync.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/low_latency_logic.sv
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/low_latency_system.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/axi.svh
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/custom.svh
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/lut_ram.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/packet_transmitter.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/rule_match_engine.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/block_ram.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/memory_sync.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/low_latency_logic.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/low_latency_system.sv
 
-SYN_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/src/mqnic_app_block.sv
+SYN_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/src/mqnic_app_block.sv
 
 # XDC files
 XDC_FILES = fpga_au200.xdc
@@ -152,12 +152,12 @@ IP_TCL_FILES += ip/cms.tcl
 IP_TCL_FILES += ip/ddr4_0.tcl
 
 # IP user logic # TO DO proper parametrization
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_main.tcl
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_lll.tcl
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_proc_sys_reset.tcl
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_microblaze.tcl
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_mdm.tcl
-IP_TCL_FILES += /home/manuel/Dottorato/Projects/Low-Latency-SmartNIC/ips/xlnx_axi_clock_converter.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_main.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_axi_crossbar_lll.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_proc_sys_reset.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_microblaze.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_mdm.tcl
+IP_TCL_FILES += /home/lab/Desktop/Low-Latency-SmartNIC/ips/xlnx_axi_clock_converter.tcl
 
 # Configuration
 CONFIG_TCL_FILES = ./config.tcl
